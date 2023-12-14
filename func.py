@@ -1,30 +1,33 @@
+from random import random, choice
 import pygame.sprite
 
 from mobs import Mob
 from player import *
+from spells import *
 
-
-def newmob(sprites: pygame.sprite.Group, mobs: pygame.sprite.Sprite):
+def new_mob(sprites: pygame.sprite.Group, mobs: pygame.sprite.Group):
     m = Mob()
-    m2 = Mob()
     sprites.add(m)
     mobs.add(m)
-    sprites.add(m2)
-    mobs.add(m2)
 
 
-def coollide_player(hero: Player, mobs, flag: bool):
-    collisons = pygame.sprite.spritecollide(player, mobs, flag)
-    for hit in collisons:
-        hero.hp -= hit.damage
-        if hero.hp <= 0:
-            return False
-        else:
-            return True
+def collide_hero(player: Player, mob: pygame.sprite.Group):
+    collisions = pygame.sprite.spritecollide(player, mob, True)
+    for hit in collisions:
+        player.hp -= hit.damage
 
-def more_mob(start_time):
-   pass
-   # for i in range()
+
+def collide_damage(mob: pygame.sprite.Group, damge: pygame.sprite.Group, sprtes: pygame.sprite.Group, spells: pygame.sprite.Group):
+    bullets_collides = pygame.sprite.groupcollide(damge, mob, True, False)
+    for bullet in bullets_collides:
+        collisions = pygame.sprite.spritecollide(bullet, mob, False)
+        for single_mob in collisions:
+            single_mob.hp -= bullet.damage
+            if single_mob.hp <= 0:
+                single_mob.kill()
+                new_mob(sprtes, mob)
+
+
 
 
 
