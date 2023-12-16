@@ -1,3 +1,5 @@
+import pygame.image
+
 from const import HEIGHT, WIDTH
 from pygame.math import Vector2
 from random import randint, choice
@@ -15,8 +17,9 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, x=0, y=0):
         super().__init__()
         self.hp = 150
+        # img = pygame.image.load(r"img/pers/player_red.png")
+        # self.image = pygame.transform.scale(img, (200, 200))
         self.image = pygame.Surface((50, 50))
-        self.image.fill(BLACK)
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
         self.speed = 5

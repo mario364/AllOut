@@ -8,6 +8,12 @@ pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('AllOut!')
 
+# background = pygame.image.load(r"img/maps/maps3.jpg")
+# background_rect = background.get_rect()
+
+
+
+
 bullets = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 hero = Player(WIDTH // 2, HEIGHT // 2)
@@ -29,7 +35,7 @@ for i in range(5):
 run = True
 while run:
     clock.tick(FPS)
-
+    print(run)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
@@ -54,8 +60,10 @@ while run:
 
     if hero.hp <= 0:
         run = False
+        print("Смерть")
 
     screen.fill(BG)
+    # screen.blit(background, background_rect)
     all_sprites.draw(screen)
     pygame.display.flip()
 
