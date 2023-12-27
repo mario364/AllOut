@@ -43,7 +43,7 @@ while run:
             loop_cnt += 1
             for i in range(6):
                 new_mob(all_sprites, sprite_mobs)
-    if loop_cnt > 2:
+    if loop_cnt > 5:
         print('ВСЕ!')
         spawn_enable = False
         all_sprites.add(boss)

@@ -6,7 +6,6 @@ from player import *
 from spells import *
 
 
-
 # score = 0
 def new_mob(sprites: pygame.sprite.Group, mobs: pygame.sprite.Group):
     m = Mob()
@@ -31,11 +30,3 @@ def collide_damage(mob: pygame.sprite.Group, damge: pygame.sprite.Group):
                 single_mob.kill()
                 # score += single_mob.score
                 # return score
-
-
-
-
-
-
-
-
