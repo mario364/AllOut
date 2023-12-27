@@ -5,6 +5,9 @@ from mobs import Mob
 from player import *
 from spells import *
 
+
+
+# score = 0
 def new_mob(sprites: pygame.sprite.Group, mobs: pygame.sprite.Group):
     m = Mob()
     sprites.add(m)
@@ -17,15 +20,19 @@ def collide_hero(player: Player, mob: pygame.sprite.Group):
         player.hp -= hit.damage
 
 
-def collide_damage(mob: pygame.sprite.Group, damge: pygame.sprite.Group, sprtes: pygame.sprite.Group, spells: pygame.sprite.Group):
+def collide_damage(mob: pygame.sprite.Group, damge: pygame.sprite.Group):
     bullets_collides = pygame.sprite.groupcollide(damge, mob, True, False)
     for bullet in bullets_collides:
         collisions = pygame.sprite.spritecollide(bullet, mob, False)
         for single_mob in collisions:
             single_mob.hp -= bullet.damage
             if single_mob.hp <= 0:
+                # global score
                 single_mob.kill()
-                new_mob(sprtes, mob)
+                # score += single_mob.score
+                # return score
+
+
 
 
 

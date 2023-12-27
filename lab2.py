@@ -1,48 +1,55 @@
 import pygame
 import sys
-from mobs import Mob
+
 # Инициализация Pygame
 pygame.init()
 
-# Определение основных параметров окна
-width, height = 800, 600
-screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption("Появление мобов")
-
 # Определение цветов
-white = (255, 255, 255)
-black = (0, 0, 0)
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
 
-# Определение параметров моба
-mob_radius = 20
-mob_color = (255, 0, 0)
+# Размеры окна
+WIDTH, HEIGHT = 800, 600
 
-# Определение параметров таймера
-spawn_timer = 10  # Время в секундах
+# Создание окна
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Следование за спрайтом")
 
-# Список для хранения мобов
-mobs_group = pygame.sprite.Group()
-def new_mob():
-    m = Mob()
-    mobs_group.add(m)
+# Класс для спрайта
+class Player(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+        self.image = pygame.Surface((50, 50))
+        self.image.fill(RED)
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
 
-for i in range(8):
-    new_mob()
+# Создание спрайтов
+player1 = Player(WIDTH // 4, HEIGHT // 2)
+player2 = Player(3 * WIDTH // 4, HEIGHT // 2)
 
-# Основной цикл программы
+# Группа спрайтов
+all_sprites = pygame.sprite.Group()
+all_sprites.add(player1, player2)
+
+# Основной игровой цикл
 clock = pygame.time.Clock()
-pygame.time.set_timer(event=new_mob, millis=10 * 1000)  # Переводим время в миллисекунды
-
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
 
+    # Обновление положения спрайтов
+    player1.rect.x += 2  # или другое значение по вашему выбору
+    player2.rect.x -= 2  # или другое значение по вашему выбору
 
-    screen.fill(white)
-    mobs_group.update()
-    mobs_group.draw(screen)
+    # Отрисовка спрайтов и фона
+    screen.fill(WHITE)
+    all_sprites.draw(screen)
 
+    # Обновление экрана
     pygame.display.flip()
-    clock.tick(60)  # 30 кадров в секунду
+
+    # Задержка для контроля частоты кадров
+    clock.tick(60)

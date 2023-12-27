@@ -17,25 +17,38 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, x=0, y=0):
         super().__init__()
         self.hp = 150
-        # img = pygame.image.load(r"img/pers/player_red.png")
-        # self.image = pygame.transform.scale(img, (200, 200))
-        self.image = pygame.Surface((50, 50))
+        images = [r"C:\Python_Projects\AllOut\img\pers\player_blue.png",
+                  r"C:\Python_Projects\AllOut\img\pers\player_green.png",
+                  r"C:\Python_Projects\AllOut\img\pers\player_red.png"]
+        img = pygame.image.load(choice(images))
+        self.image = pygame.transform.scale(img, (100, 100))
+        # self.image = pygame.Surface((50, 50))
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
         self.speed = 5
         self.direction = Vector2(1, 0)
-        self.spells = {"green": GreenSpell, "red": RedSpell}
+        self.move_direction = None
+
 
     def update(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
             self.rect.x -= self.speed
+            self.move_direction = "left"
         if keys[pygame.K_RIGHT]:
             self.rect.x += self.speed
+            self.move_direction = "right"
         if keys[pygame.K_UP]:
             self.rect.y -= self.speed
+            self.move_direction = "up"
         if keys[pygame.K_DOWN]:
             self.rect.y += self.speed
+            self.move_direction = "down"
+
+        if self.rect.right > WIDTH:
+            self.rect.right = WIDTH
+        if self.rect.left < 0:
+            self.rect.left = 0
 
     def shoot_bullet(self, sprites: pygame.sprite.Group, bullets: pygame.sprite.Group):
         mouse_pos = pygame.mouse.get_pos()
@@ -46,12 +59,12 @@ class Player(pygame.sprite.Sprite):
             sprites.add(bullet)
             bullets.add(bullet)
 
-    def shoot_spell(self, sprites: pygame.sprite.Group, spell_sprite: pygame.sprite.Group):
-        keys = list(self.spells.keys())
-        cls = choice(keys)
-        spell = self.spells[cls](self.rect.centerx, self.rect.top)
-        sprites.add(spell)
-        spell_sprite.add(spell)
+    # def shoot_spell(self, sprites: pygame.sprite.Group, spell_sprite: pygame.sprite.Group):
+    #     keys = list(self.spells.keys())
+    #     cls = choice(keys)
+    #     spell = self.spells[cls](self.rect.centerx, self.rect.top)
+    #     sprites.add(spell)
+    #     spell_sprite.add(spell)
 
 
 # Определяем класс Bullet
@@ -59,8 +72,8 @@ class Bullet(pygame.sprite.Sprite):
     def __init__(self, x, y, direction):
         super().__init__()
         self.damage = randint(30, 50)
-        self.image = pygame.Surface((10, 10))
-        self.image.fill((0, 0, 0))
+        img = pygame.image.load(r"C:\Python_Projects\AllOut\img\atack\bullet.png")
+        self.image = pygame.transform.scale(img, (30, 30))
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
         self.speed = 7.5
